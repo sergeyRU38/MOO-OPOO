@@ -274,24 +274,53 @@
             box-shadow: 0 12px 25px rgba(37,99,235,0.4);
         }
 
-        .btn-submit {
-            background: linear-gradient(145deg, #10b981, #059669);
-            color: white;
-            padding: 1.2rem 2.5rem;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.25s;
-            box-shadow: 0 20px 30px -8px rgba(16,185,129,0.4);
-            border: none;
-            font-family: 'Inter', sans-serif;
+        .submit-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .btn-submit:hover {
+        .btn-telegram {
+            background: linear-gradient(145deg, #2AABEE, #229ED9);
+            color: white;
+            padding: 1rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 10px 25px rgba(42,171,238,0.3);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+        }
+
+        .btn-telegram:hover {
             transform: translateY(-3px);
-            box-shadow: 0 28px 35px -10px #059669;
+            box-shadow: 0 15px 30px rgba(42,171,238,0.4);
+            background: #1FA2E0;
+        }
+
+        .btn-email {
+            background: linear-gradient(145deg, #EA4335, #D33426);
+            color: white;
+            padding: 1rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 10px 25px rgba(234,67,53,0.3);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+        }
+
+        .btn-email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(234,67,53,0.4);
+            background: #C12B1E;
         }
 
         .contact-info-card {
@@ -348,13 +377,22 @@
             background: #e0f2fe;
             padding: 1rem;
             border-radius: 16px;
-            margin-top: 1.5rem;
+            margin: 1.5rem 0;
             color: #0369a1;
             text-align: center;
         }
 
         .note i {
             margin-right: 8px;
+        }
+
+        .choice-note {
+            background: #f1f5f9;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            color: #475569;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 700px) {
@@ -365,6 +403,7 @@
             h1 { font-size: 2rem; }
             .progress-bar { max-width: 100%; }
             .step-label { font-size: 0.75rem; }
+            .submit-buttons { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -375,7 +414,7 @@
         <div class="form-container">
             <div id="formContent">
                 <h1>📋 Подключение школы</h1>
-                <p class="subtitle">Заполните форму — откроется Telegram с готовым сообщением</p>
+                <p class="subtitle">Заполните форму и выберите способ отправки</p>
 
                 <!-- Прогресс-бар -->
                 <div class="progress-bar">
@@ -529,14 +568,22 @@
                         </div>
                     </div>
 
-                    <div class="note">
-                        <i class="fas fa-info-circle"></i>
-                        После нажатия кнопки откроется Telegram с готовым текстом заявки. Нажмите «Отправить» в Telegram.
+                    <div class="choice-note">
+                        <i class="fas fa-hand-pointer"></i> Выберите удобный способ отправки:
+                    </div>
+
+                    <div class="submit-buttons">
+                        <button class="btn-telegram" onclick="submitViaTelegram()">
+                            <i class="fab fa-telegram-plane"></i> Отправить в Telegram
+                        </button>
+                        <button class="btn-email" onclick="submitViaEmail()">
+                            <i class="fas fa-envelope"></i> Отправить на Email
+                        </button>
                     </div>
 
                     <div class="step-buttons">
                         <button class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Назад</button>
-                        <button class="btn btn-submit" onclick="submitForm()"><i class="fab fa-telegram-plane"></i> Открыть Telegram и отправить</button>
+                        <div></div>
                     </div>
                 </div>
             </div>
@@ -544,9 +591,8 @@
             <!-- Экран успеха -->
             <div id="successScreen" class="success-screen hidden">
                 <i class="fas fa-check-circle"></i>
-                <h2>Спасибо за заявку!</h2>
-                <p>Не забудьте нажать кнопку <strong>«Отправить»</strong> в открывшемся Telegram.<br>
-                Мы свяжемся с вами в ближайшее время.</p>
+                <h2>Почти готово!</h2>
+                <p id="successMessage">Отправьте сообщение в открывшемся окне.</p>
                 <div style="display: flex; gap: 1rem; justify-content: center;">
                     <a href="index.html" class="btn btn-next" style="text-decoration: none;">На главную</a>
                     <button class="btn btn-prev" onclick="resetForm()">Новая заявка</button>
@@ -594,7 +640,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function submitForm() {
+        function validateForm() {
             const schoolName = document.getElementById('schoolName').value;
             const directorName = document.getElementById('directorName').value;
             const phone = document.getElementById('phone').value;
@@ -604,8 +650,18 @@
 
             if (!schoolName || !directorName || !phone || !email || !region || !city) {
                 alert('Пожалуйста, заполните все обязательные поля (отмечены *)');
-                return;
+                return false;
             }
+            return true;
+        }
+
+        function getFormMessage() {
+            const schoolName = document.getElementById('schoolName').value;
+            const directorName = document.getElementById('directorName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const region = document.getElementById('region').value;
+            const city = document.getElementById('city').value;
 
             // Сбор выбранных систем
             const systems = [];
@@ -616,40 +672,81 @@
             if (document.getElementById('zhuravl').checked) systems.push('ЭЖ Журавль');
             if (document.getElementById('rukovodstvo').checked) systems.push('Руководство');
 
-            // Формирование текста заявки для Telegram
-            const messageText = `🏫 *НОВАЯ ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ*
+            // Тема письма
+            const subject = `Заявка на подключение: ${schoolName}`;
 
-*📌 ДАННЫЕ ШКОЛЫ:*
-• Полное название: ${schoolName}
-• Краткое название: ${document.getElementById('schoolShortName').value || '—'}
-• Регион: ${region}
-• Город: ${city}
-• Адрес: ${document.getElementById('address').value || '—'}
+            // Текст сообщения
+            const body = `
+ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ
 
-*💻 ВЫБРАННЫЕ СИСТЕМЫ:*
-${systems.length > 0 ? systems.join(', ') : 'Не выбраны'}
+================================
+ДАННЫЕ ШКОЛЫ:
+================================
+Полное название: ${schoolName}
+Краткое название: ${document.getElementById('schoolShortName').value || '—'}
+Регион: ${region}
+Город: ${city}
+Адрес: ${document.getElementById('address').value || '—'}
 
-*👤 КОНТАКТЫ:*
-• Директор: ${directorName}
-• Ответственный: ${document.getElementById('responsibleName').value || '—'}
-• Телефон: ${phone}
-• Email: ${email}
-• Комментарий: ${document.getElementById('comment').value || '—'}
+================================
+ВЫБРАННЫЕ СИСТЕМЫ:
+================================
+${systems.length > 0 ? systems.join('\n') : 'Не выбраны'}
 
-*📅 Дата заявки:* ${new Date().toLocaleString('ru-RU')}`;
+================================
+КОНТАКТЫ:
+================================
+Директор: ${directorName}
+Ответственный: ${document.getElementById('responsibleName').value || '—'}
+Телефон: ${phone}
+Email: ${email}
+Комментарий: ${document.getElementById('comment').value || '—'}
 
-            // Кодируем текст для URL
-            const encodedMessage = encodeURIComponent(messageText);
+================================
+Дата заявки: ${new Date().toLocaleString('ru-RU')}
+================================
+            `.trim();
+
+            return { subject, body };
+        }
+
+        function submitViaTelegram() {
+            if (!validateForm()) return;
+
+            const { body } = getFormMessage();
             
-            // Открываем Telegram бот с готовым сообщением
-            // Замените YOUR_BOT_USERNAME на username вашего бота (без @)
+            // Кодируем текст для URL
+            const encodedMessage = encodeURIComponent(body);
+            
+            // Открываем Telegram бот
             const botUsername = 'mooOPOO_bot';
             const telegramUrl = `https://t.me/${botUsername}?text=${encodedMessage}`;
             
-            // Открываем в новой вкладке
             window.open(telegramUrl, '_blank');
             
-            // Показываем экран успеха
+            document.getElementById('successMessage').innerHTML = 
+                'Нажмите <strong>«Отправить»</strong> в открывшемся Telegram.<br>Заявка будет доставлена мгновенно.';
+            document.getElementById('formContent').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function submitViaEmail() {
+            if (!validateForm()) return;
+
+            const { subject, body } = getFormMessage();
+            
+            // Кодируем для mailto
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body);
+            
+            // Открываем почтовый клиент
+            const mailtoUrl = `mailto:SergeyRudukh@yandex.ru?subject=${encodedSubject}&body=${encodedBody}`;
+            
+            window.location.href = mailtoUrl;
+            
+            document.getElementById('successMessage').innerHTML = 
+                'Проверьте, что письмо открылось в почтовой программе.<br>Нажмите <strong>«Отправить»</strong> в почтовом клиенте.';
             document.getElementById('formContent').classList.add('hidden');
             document.getElementById('successScreen').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
