@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -238,38 +236,6 @@
             cursor: pointer;
         }
 
-        .file-upload-area {
-            border: 2px dashed #cbd5e1;
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            background: #fafcff;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 0.5rem;
-        }
-
-        .file-upload-area:hover {
-            border-color: #3b82f6;
-            background: #eff6ff;
-        }
-
-        .file-upload-area i {
-            font-size: 2.5rem;
-            color: #3b82f6;
-            margin-bottom: 0.8rem;
-        }
-
-        .file-upload-area input {
-            display: none;
-        }
-
-        .file-name {
-            margin-top: 0.5rem;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
         .step-buttons {
             display: flex;
             justify-content: space-between;
@@ -399,15 +365,6 @@
             display: none !important;
         }
 
-        .note {
-            background: #fef9c3;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            margin-top: 1rem;
-            color: #854d0e;
-        }
-
         @media (max-width: 700px) {
             body { padding: 1rem; }
             .form-container { padding: 2rem 1.2rem; }
@@ -426,7 +383,7 @@
         <div class="form-container">
             <div id="formContent">
                 <h1>📋 Подключение школы</h1>
-                <p class="subtitle">Заполните форму — заявка будет отправлена на SergeyRudukh@yandex.ru</p>
+                <p class="subtitle">Заполните форму — заявка будет отправлена в Telegram</p>
 
                 <!-- Прогресс-бар -->
                 <div class="progress-bar">
@@ -591,7 +548,7 @@
             <div id="successScreen" class="success-screen hidden">
                 <i class="fas fa-check-circle"></i>
                 <h2>Заявка отправлена!</h2>
-                <p>Спасибо! Ваша заявка отправлена на <strong>SergeyRudukh@yandex.ru</strong><br>
+                <p>Спасибо! Ваша заявка отправлена.<br>
                 Мы свяжемся с вами в ближайшее время.</p>
                 <div style="display: flex; gap: 1rem; justify-content: center;">
                     <a href="index.html" class="btn btn-next" style="text-decoration: none;">На главную</a>
@@ -602,10 +559,10 @@
     </div>
 
     <script>
-        // Инициализация EmailJS с готовым ключом
-        (function() {
-            emailjs.init("tQY2KQxPwNdF7WrT_");
-        })();
+        // ========== НАСТРОЙКИ TELEGRAM ==========
+        const TELEGRAM_BOT_TOKEN = '8723422610:AAF82fu32v1mzQp2zQl4mm7u1Ly6Mtm445w';
+        const TELEGRAM_CHAT_ID = '7815695195';
+        // ========================================
 
         let currentStep = 1;
 
@@ -645,6 +602,31 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        async function sendToTelegram(text) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: text,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const data = await response.json();
+                console.log('Ответ Telegram:', data);
+                return data.ok;
+            } catch (error) {
+                console.error('Ошибка отправки в Telegram:', error);
+                return false;
+            }
+        }
+
         async function submitForm() {
             const schoolName = document.getElementById('schoolName').value;
             const directorName = document.getElementById('directorName').value;
@@ -674,56 +656,41 @@
 
             // Формирование текста заявки
             const messageText = `
-🏫 НОВАЯ ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ
+<b>🏫 НОВАЯ ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ</b>
 
-📌 ДАННЫЕ ШКОЛЫ:
+<b>📌 ДАННЫЕ ШКОЛЫ:</b>
 • Полное название: ${schoolName}
 • Краткое название: ${document.getElementById('schoolShortName').value || '—'}
 • Регион: ${region}
 • Город: ${city}
 • Адрес: ${document.getElementById('address').value || '—'}
 
-💻 ВЫБРАННЫЕ СИСТЕМЫ:
+<b>💻 ВЫБРАННЫЕ СИСТЕМЫ:</b>
 ${systems.length > 0 ? systems.join(', ') : 'Не выбраны'}
 
-👤 КОНТАКТЫ:
+<b>👤 КОНТАКТЫ:</b>
 • Директор: ${directorName}
 • Ответственный: ${document.getElementById('responsibleName').value || '—'}
 • Телефон: ${phone}
 • Email: ${email}
 • Комментарий: ${document.getElementById('comment').value || '—'}
 
-📅 Дата заявки: ${new Date().toLocaleString('ru-RU')}
+<b>📅 Дата заявки:</b> ${new Date().toLocaleString('ru-RU')}
             `.trim();
 
-            // Параметры для EmailJS
-            const templateParams = {
-                to_email: 'SergeyRudukh@yandex.ru',
-                from_name: 'МОО ОПОО',
-                subject: 'Новая заявка на подключение школы',
-                message: messageText,
-                reply_to: email
-            };
-
-            try {
-                // Отправка через EmailJS с готовыми ключами
-                const response = await emailjs.send(
-                    'service_5h3q1gj',
-                    'template_6c2x8ij',
-                    templateParams
-                );
-
-                console.log('Успех:', response);
+            // Отправляем в Telegram
+            const success = await sendToTelegram(messageText);
+            
+            if (success) {
                 document.getElementById('formContent').classList.add('hidden');
                 document.getElementById('successScreen').classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('Не удалось отправить заявку. Пожалуйста, свяжитесь с нами по телефону: +7 (983) 242-03-49');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+            } else {
+                alert('Ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону: +7 (983) 242-03-49');
             }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
         }
 
         function resetForm() {
