@@ -294,12 +294,6 @@
             box-shadow: 0 28px 35px -10px #059669;
         }
 
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         .contact-info-card {
             background: linear-gradient(135deg, #eef2ff, #ffffff);
             border-radius: 24px;
@@ -346,23 +340,21 @@
             margin-bottom: 2rem;
         }
 
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         .hidden {
             display: none !important;
+        }
+
+        .note {
+            background: #e0f2fe;
+            padding: 1rem;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            color: #0369a1;
+            text-align: center;
+        }
+
+        .note i {
+            margin-right: 8px;
         }
 
         @media (max-width: 700px) {
@@ -383,7 +375,7 @@
         <div class="form-container">
             <div id="formContent">
                 <h1>📋 Подключение школы</h1>
-                <p class="subtitle">Заполните форму — заявка будет отправлена в Telegram</p>
+                <p class="subtitle">Заполните форму — откроется Telegram с готовым сообщением</p>
 
                 <!-- Прогресс-бар -->
                 <div class="progress-bar">
@@ -537,9 +529,14 @@
                         </div>
                     </div>
 
+                    <div class="note">
+                        <i class="fas fa-info-circle"></i>
+                        После нажатия кнопки откроется Telegram с готовым текстом заявки. Нажмите «Отправить» в Telegram.
+                    </div>
+
                     <div class="step-buttons">
                         <button class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Назад</button>
-                        <button class="btn btn-submit" id="submitBtn" onclick="submitForm()"><i class="fas fa-paper-plane"></i> Отправить заявку</button>
+                        <button class="btn btn-submit" onclick="submitForm()"><i class="fab fa-telegram-plane"></i> Открыть Telegram и отправить</button>
                     </div>
                 </div>
             </div>
@@ -547,8 +544,8 @@
             <!-- Экран успеха -->
             <div id="successScreen" class="success-screen hidden">
                 <i class="fas fa-check-circle"></i>
-                <h2>Заявка отправлена!</h2>
-                <p>Спасибо! Ваша заявка отправлена.<br>
+                <h2>Спасибо за заявку!</h2>
+                <p>Не забудьте нажать кнопку <strong>«Отправить»</strong> в открывшемся Telegram.<br>
                 Мы свяжемся с вами в ближайшее время.</p>
                 <div style="display: flex; gap: 1rem; justify-content: center;">
                     <a href="index.html" class="btn btn-next" style="text-decoration: none;">На главную</a>
@@ -559,11 +556,6 @@
     </div>
 
     <script>
-        // ========== НАСТРОЙКИ TELEGRAM ==========
-        const TELEGRAM_BOT_TOKEN = '8723422610:AAF82fu32v1mzQp2zQl4mm7u1Ly6Mtm445w';
-        const TELEGRAM_CHAT_ID = '7815695195';
-        // ========================================
-
         let currentStep = 1;
 
         function updateProgress(step) {
@@ -602,32 +594,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        async function sendToTelegram(text) {
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: text,
-                        parse_mode: 'HTML'
-                    })
-                });
-                
-                const data = await response.json();
-                console.log('Ответ Telegram:', data);
-                return data.ok;
-            } catch (error) {
-                console.error('Ошибка отправки в Telegram:', error);
-                return false;
-            }
-        }
-
-        async function submitForm() {
+        function submitForm() {
             const schoolName = document.getElementById('schoolName').value;
             const directorName = document.getElementById('directorName').value;
             const phone = document.getElementById('phone').value;
@@ -640,11 +607,6 @@
                 return;
             }
 
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loading-spinner"></span> Отправка...';
-
             // Сбор выбранных систем
             const systems = [];
             if (document.getElementById('sgo').checked) systems.push('СГО');
@@ -654,43 +616,43 @@
             if (document.getElementById('zhuravl').checked) systems.push('ЭЖ Журавль');
             if (document.getElementById('rukovodstvo').checked) systems.push('Руководство');
 
-            // Формирование текста заявки
-            const messageText = `
-<b>🏫 НОВАЯ ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ</b>
+            // Формирование текста заявки для Telegram
+            const messageText = `🏫 *НОВАЯ ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ*
 
-<b>📌 ДАННЫЕ ШКОЛЫ:</b>
+*📌 ДАННЫЕ ШКОЛЫ:*
 • Полное название: ${schoolName}
 • Краткое название: ${document.getElementById('schoolShortName').value || '—'}
 • Регион: ${region}
 • Город: ${city}
 • Адрес: ${document.getElementById('address').value || '—'}
 
-<b>💻 ВЫБРАННЫЕ СИСТЕМЫ:</b>
+*💻 ВЫБРАННЫЕ СИСТЕМЫ:*
 ${systems.length > 0 ? systems.join(', ') : 'Не выбраны'}
 
-<b>👤 КОНТАКТЫ:</b>
+*👤 КОНТАКТЫ:*
 • Директор: ${directorName}
 • Ответственный: ${document.getElementById('responsibleName').value || '—'}
 • Телефон: ${phone}
 • Email: ${email}
 • Комментарий: ${document.getElementById('comment').value || '—'}
 
-<b>📅 Дата заявки:</b> ${new Date().toLocaleString('ru-RU')}
-            `.trim();
+*📅 Дата заявки:* ${new Date().toLocaleString('ru-RU')}`;
 
-            // Отправляем в Telegram
-            const success = await sendToTelegram(messageText);
+            // Кодируем текст для URL
+            const encodedMessage = encodeURIComponent(messageText);
             
-            if (success) {
-                document.getElementById('formContent').classList.add('hidden');
-                document.getElementById('successScreen').classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                alert('Ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону: +7 (983) 242-03-49');
-            }
-
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
+            // Открываем Telegram бот с готовым сообщением
+            // Замените YOUR_BOT_USERNAME на username вашего бота (без @)
+            const botUsername = 'mooOPOO_bot';
+            const telegramUrl = `https://t.me/${botUsername}?text=${encodedMessage}`;
+            
+            // Открываем в новой вкладке
+            window.open(telegramUrl, '_blank');
+            
+            // Показываем экран успеха
+            document.getElementById('formContent').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function resetForm() {
