@@ -42,17 +42,34 @@
             gap: 1rem;
         }
 
-        h1 {
-            font-size: 2.8rem;
+        /* Печатающийся заголовок */
+        .typewriter {
+            min-height: 180px;
+        }
+
+        .typewriter h1 {
+            font-size: 3rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             line-height: 1.2;
+            border-right: 4px solid #3b82f6;
+            padding-right: 15px;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blinkCursor 0.8s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { border-color: #3b82f6; }
+            50% { border-color: transparent; }
         }
 
         .subhead {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             opacity: 0.9;
             max-width: 700px;
+            margin-top: 1rem;
         }
 
         .badge {
@@ -63,28 +80,7 @@
             font-weight: 600;
             font-size: 0.9rem;
             width: fit-content;
-            margin-top: 1rem;
-        }
-
-        /* Счётчик школ (новая фича) */
-        .stats-counter {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        .stat-item {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(4px);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #fbbf24;
-            line-height: 1;
+            margin-bottom: 0.5rem;
         }
 
         /* Sections */
@@ -111,9 +107,10 @@
             border-radius: 4px;
         }
 
-        .grid-3, .grid-4 {
+        /* Плиточки - расширенный набор */
+        .grid-4 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.8rem;
             margin-top: 2rem;
         }
@@ -138,37 +135,101 @@
             margin-bottom: 1.2rem;
         }
 
-        /* Systems list */
-        .systems-list {
-            background: white;
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem 2rem;
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
         }
 
-        .system-item {
+        .card p {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        /* ОБЪЕДИНЕННЫЙ БЛОК: Системы + Статус */
+        .systems-unified {
+            background: white;
+            border-radius: 28px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 3rem;
+            padding-bottom: 1.8rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 2px dashed #cbd5e1;
+        }
+
+        .status-led {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 500;
+        }
+
+        .led {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+        .led.yellow {
+            background: #f59e0b;
+            box-shadow: 0 0 8px #f59e0b;
+        }
+        .led.blue {
+            background: #3b82f6;
+            box-shadow: 0 0 8px #3b82f6;
+        }
+
+        .systems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem 1.5rem;
+        }
+
+        .system-card {
+            background: #f8fafc;
+            padding: 1rem 1.2rem;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            font-size: 1.2rem;
-            font-weight:500;
-            padding: 0.5rem 1rem;
-            background: #f1f5f9;
-            border-radius: 40px;
+            border-left: 4px solid;
+            transition: all 0.1s;
         }
 
-        .soon {
+        .system-card.active-system {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        .system-card.soon-system {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .system-card.other-system {
+            border-left-color: #3b82f6;
+        }
+
+        .system-icon {
+            font-size: 1.6rem;
+        }
+        .system-name {
+            font-weight: 600;
+        }
+        .tag-soon {
             background: #fef9c3;
             color: #854d0e;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            margin-left: 0.8rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
         }
 
         /* Leadership Cards */
@@ -190,7 +251,7 @@
         .leader-avatar {
             width: 80px;
             height: 80px;
-            background: #e0e7ff;
+            background: linear-gradient(145deg, #dbeafe, #eff6ff);
             border-radius: 50%;
             margin: 0 auto 1.2rem;
             display: flex;
@@ -212,7 +273,7 @@
             margin: 0.5rem 0 0.25rem;
         }
 
-        /* Tabs (новая функция) */
+        /* Tabs (оставим, но без пакетов услуг) */
         .tabs-container {
             background: white;
             border-radius: 24px;
@@ -249,35 +310,6 @@
         }
         .tab-pane.active {
             display: block;
-        }
-
-        /* Статус систем (новая фишка) */
-        .status-widget {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .status-led {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .led {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 8px #10b981;
-        }
-        .led.yellow {
-            background: #f59e0b;
-            box-shadow: 0 0 8px #f59e0b;
         }
 
         /* Contact block */
@@ -325,10 +357,14 @@
             margin-bottom: 1rem;
             border: 1px solid #e2e8f0;
         }
+        .faq-q {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
 
-        /* Адаптив */
         @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
+            .typewriter h1 { font-size: 1.8rem; white-space: normal; border-right: none; animation: none; }
             .contact-block { flex-direction: column; gap: 2rem; text-align: center; }
         }
     </style>
@@ -338,64 +374,110 @@
 <header>
     <div class="container header-content">
         <div class="badge">🏫 Межрегиональная общественная организация</div>
-        <h1>МОО ОПОО<br>Подключение школ к цифровым системам</h1>
-        <p class="subhead">Интегратор электронных образовательных систем. Подключите школу к единой цифровой среде сегодня!</p>
-        
-        <!-- НОВОЕ: Счётчик школ -->
-        <div class="stats-counter">
-            <div class="stat-item">
-                <div class="stat-number">180+</div>
-                <div>школ подключено</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">14</div>
-                <div>регионов РФ</div>
-            </div>
+        <div class="typewriter">
+            <h1 id="typewriter-text">МОО ОПОО</h1>
         </div>
-        <div style="margin-top: 1.5rem;">
+        <p class="subhead">Подключаем школы к современным цифровым платформам. Оперативно, прозрачно, с заботой.</p>
+        <div style="margin-top: 2rem;">
             <a href="#contact" class="btn" style="background: white; color: #0f172a; box-shadow: none;">Подать заявку</a>
         </div>
     </div>
 </header>
 
 <main class="container">
-    <!-- О нас + преимущества -->
+    <!-- О нас + плиточки (расширенные) -->
     <section>
         <h2>О нашей организации</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; max-width: 800px;">Мы — управленческая структура, подключающая школы к реестру и обеспечивающая доступ к АИС и электронным журналам. Оперативно, прозрачно, с заботой.</p>
-        <div class="grid-3">
-            <div class="card"><div class="card-icon">⚡</div><h3>Оперативность</h3><p>Обработка заявок в день обращения.</p></div>
-            <div class="card"><div class="card-icon">🏫</div><h3>Реестр школ</h3><p>Внесение согласно регламенту Минпросвещения.</p></div>
-            <div class="card"><div class="card-icon">💬</div><h3>24/7 поддержка</h3><p>Чат и телефон для срочных вопросов.</p></div>
-            <div class="card"><div class="card-icon">📋</div><h3>Простая подача</h3><p>Электронное заявление за 5 минут.</p></div>
-            <div class="card"><div class="card-icon">👥</div><h3>Компетентное руководство</h3><p>Опытная команда управленцев.</p></div>
-            <div class="card"><div class="card-icon">📄</div><h3>Без бюрократии</h3><p>Минимум документов, максимум скорости.</p></div>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; max-width: 800px;">Мы — управленческая структура, подключающая школы к реестру и обеспечивающая доступ к электронным журналам. Оперативно, прозрачно, с заботой.</p>
+        
+        <div class="grid-4">
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Мгновенная обработка</h3>
+                <p>Заявки обрабатываются в день обращения.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏫</div>
+                <h3>Единый реестр</h3>
+                <p>Вносим школы в федеральный перечень аккуратно и точно.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💬</div>
+                <h3>Круглосуточная поддержка</h3>
+                <p>Всегда на связи: почта, телефон, мессенджеры.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>Заявление за 5 минут</h3>
+                <p>Удобная онлайн-форма без лишних полей.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <h3>Профессиональное руководство</h3>
+                <p>Опытная команда с многолетним стажем в образовании.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📄</div>
+                <h3>Минимум бюрократии</h3>
+                <p>Только необходимые документы, быстрая регистрация.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔒</div>
+                <h3>Защита данных</h3>
+                <p>Соответствие 152-ФЗ, безопасное хранение информации.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Аналитика и отчёты</h3>
+                <p>Предоставляем статистику использования систем.</p>
+            </div>
         </div>
     </section>
 
-    <!-- НОВОЕ: Виджет со статусом систем -->
-    <div class="status-widget">
-        <div style="font-weight: 700; font-size: 1.2rem;">🟢 Статус систем</div>
-        <div class="status-led"><span class="led"></span> СГО, АИС Онлайн, Современный педагог — работают</div>
-        <div class="status-led"><span class="led yellow"></span> АИС ЭлЖур — тестирование (скоро)</div>
-        <div class="status-led"><span class="led"></span> ЭЖ Журавль, Баллов нет — стабильно</div>
-    </div>
-
-    <!-- Системы -->
+    <!-- ОБЪЕДИНЁННЫЙ БЛОК: СТАТУС + СИСТЕМЫ -->
     <section>
-        <h2>Подключаемые системы</h2>
-        <div class="systems-list">
-            <div class="system-item"><span>📘</span> АИС ЭлЖур <span class="soon">скоро, в разработке</span></div>
-            <div class="system-item"><span>🌐</span> Сетевой Город Образование (СГО)</div>
-            <div class="system-item"><span>💻</span> АИС Онлайн</div>
-            <div class="system-item"><span>📚</span> АИС «Современный педагог»</div>
-            <div class="system-item"><span>🚫</span> Баллов нет</div>
-            <div class="system-item"><span>🕊️</span> ЭЖ «Журавль»</div>
-            <div class="system-item"><span>📌</span> Руководство (управленческий модуль)</div>
+        <h2>Системы и их статус</h2>
+        <div class="systems-unified">
+            <div class="status-bar">
+                <div class="status-led"><span class="led"></span> СГО, Онлайн, Совр. педагог — стабильно</div>
+                <div class="status-led"><span class="led yellow"></span> АИС ЭлЖур — финальное тестирование</div>
+                <div class="status-led"><span class="led blue"></span> Журавль, Баллов нет, Руководство — активны</div>
+            </div>
+            <div class="systems-grid">
+                <div class="system-card soon-system">
+                    <span class="system-icon">📘</span>
+                    <span class="system-name">АИС ЭлЖур <span class="tag-soon">скоро</span></span>
+                </div>
+                <div class="system-card active-system">
+                    <span class="system-icon">🌐</span>
+                    <span class="system-name">Сетевой Город (СГО)</span>
+                </div>
+                <div class="system-card active-system">
+                    <span class="system-icon">💻</span>
+                    <span class="system-name">АИС Онлайн</span>
+                </div>
+                <div class="system-card active-system">
+                    <span class="system-icon">📚</span>
+                    <span class="system-name">АИС Современный педагог</span>
+                </div>
+                <div class="system-card other-system">
+                    <span class="system-icon">🚫</span>
+                    <span class="system-name">Баллов нет</span>
+                </div>
+                <div class="system-card other-system">
+                    <span class="system-icon">🕊️</span>
+                    <span class="system-name">ЭЖ «Журавль»</span>
+                </div>
+                <div class="system-card other-system">
+                    <span class="system-icon">📌</span>
+                    <span class="system-name">Руководство (модуль)</span>
+                </div>
+            </div>
+            <p style="margin-top: 1.8rem; color: #475569; font-size: 0.9rem; border-top: 1px dashed #cbd5e1; padding-top: 1.5rem;">✅ Зелёный индикатор — система активна и доступна для подключения. 🟡 Жёлтый — в процессе запуска.</p>
         </div>
     </section>
 
-    <!-- РУКОВОДСТВО (ОБНОВЛЕНО) -->
+    <!-- РУКОВОДСТВО (ФИНАЛЬНАЯ ВЕРСИЯ) -->
     <section>
         <h2>Руководство МОО ОПОО</h2>
         <div class="leadership-grid">
@@ -421,18 +503,17 @@
                 <div class="leader-role">Глава администрации</div>
             </div>
         </div>
-        <p style="margin-top: 1.5rem; font-size: 0.95rem; background: #eef2ff; padding: 0.75rem 1.5rem; border-radius: 40px; display: inline-block;">
-            📢 Председатель — Горшков Владимир Александрович. Помощник — Бучель Даниил Игоревич.
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; background: #eef2ff; padding: 0.6rem 1.5rem; border-radius: 40px; display: inline-block;">
+            ⚡ Состав руководства актуален на 2026 год. Председатель — Горшков В.А.
         </p>
     </section>
 
-    <!-- НОВАЯ ФУНКЦИЯ: ВКЛАДКИ (Табы) Этапы подключения / Тарифы / Документы -->
+    <!-- ВКЛАДКИ (этапы и документы, без пакетов) -->
     <section>
-        <h2>📋 Информация для школ</h2>
+        <h2>📋 Информация для подключения</h2>
         <div class="tabs-container">
             <div class="tab-buttons">
                 <button class="tab-btn active" data-tab="tab1">📌 Этапы подключения</button>
-                <button class="tab-btn" data-tab="tab2">📊 Пакеты услуг</button>
                 <button class="tab-btn" data-tab="tab3">📂 Документы и регламенты</button>
             </div>
             <div id="tab1" class="tab-pane active">
@@ -442,20 +523,7 @@
                     <li style="margin-bottom: 1rem;">✅ <strong>2.</strong> Предоставить реквизиты ОУ и контакты ответственного.</li>
                     <li style="margin-bottom: 1rem;">✅ <strong>3.</strong> Получить доступы к личному кабинету и системам в течение 24 часов.</li>
                 </ul>
-                <p>Для ускорения процесса помощник председателя Бучель Д.И. свяжется с вами лично.</p>
-            </div>
-            <div id="tab2" class="tab-pane">
-                <h3>Доступные конфигурации</h3>
-                <div style="display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap;">
-                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; flex:1;">
-                        <div style="font-weight: 700;">«Базовый»</div>
-                        <p>Подключение к 2 системам (СГО + на выбор), внесение в реестр.</p>
-                    </div>
-                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; flex:1;">
-                        <div style="font-weight: 700;">«Полный»</div>
-                        <p>Все системы, включая «Современный педагог», «Журавль», приоритетная поддержка.</p>
-                    </div>
-                </div>
+                <p>Помощник председателя Бучель Д.И. курирует процесс внесения в реестр.</p>
             </div>
             <div id="tab3" class="tab-pane">
                 <h3>Нормативная база</h3>
@@ -470,18 +538,18 @@
         </div>
     </section>
 
-    <!-- Контакты -->
+    <!-- КОНТАКТЫ (обновлённые) -->
     <section id="contact">
         <div class="contact-block">
             <div>
                 <h3 style="color: white; font-size: 1.8rem; margin-bottom: 0.5rem;">📞 Контакты</h3>
-                <p style="font-size: 1.2rem;">+7 (495) 123-45-67</p>
-                <p style="opacity: 0.8;">✉️ gorshkov@moopoo.ru (председатель)</p>
-                <p style="opacity: 0.8;">📌 Москва, ул. Цифровая, д. 10</p>
+                <p style="font-size: 1.3rem; font-weight: 500;">+7 (983) 242-03-49</p>
+                <p style="opacity: 0.9; font-size: 1.1rem;">✉️ SergeyRudukh@yandex.ru</p>
+                <p style="opacity: 0.7; margin-top: 0.5rem;">Помощник председателя: Бучель Даниил Игоревич</p>
             </div>
             <div>
-                <a href="#" class="btn" style="background: white; color: #0f172a;">Заявление на подключение</a>
-                <p style="margin-top: 1rem; opacity: 0.7;">ссылка: connect.moo-opoo.ru</p>
+                <a href="#" class="btn" style="background: white; color: #0f172a;">Онлайн-заявление</a>
+                <p style="margin-top: 1rem; opacity: 0.8;">Ссылка: connect.moo-opoo.ru</p>
             </div>
         </div>
     </section>
@@ -489,9 +557,9 @@
     <!-- FAQ -->
     <section style="margin-top: 3rem;">
         <h2>Часто задаваемые вопросы</h2>
-        <div class="faq-item"><div class="faq-q">❓ Кто такой Горшков В.А.?</div><p>Владимир Александрович Горшков — Председатель МОО ОПОО, руководит стратегией подключения школ и взаимодействием с регионами.</p></div>
-        <div class="faq-item"><div class="faq-q">❓ Как быстро подключат?</div><p>После подачи заявления школа вносится в реестр в течение 24 часов. Помощник председателя Бучель Д.И. курирует процесс.</p></div>
-        <div class="faq-item"><div class="faq-q">❓ АИС ЭлЖур уже работает?</div><p>Находится на финальной стадии тестирования. Ожидайте запуска в ближайшее время.</p></div>
+        <div class="faq-item"><div class="faq-q">❓ Кто является председателем?</div><p>Председатель МОО ОПОО — Горшков Владимир Александрович. Он определяет стратегию развития и курирует подключение регионов.</p></div>
+        <div class="faq-item"><div class="faq-q">❓ Как быстро школа появится в реестре?</div><p>После подачи заявления — в течение 24 часов. Контролирует помощник председателя Бучель Д.И.</p></div>
+        <div class="faq-item"><div class="faq-q">❓ Когда заработает АИС ЭлЖур?</div><p>Система на финальной стадии тестирования, запуск ожидается в ближайшее время. Следите за статусом в разделе «Системы».</p></div>
     </section>
 
     <div style="margin: 2rem 0; text-align: center;">
@@ -503,13 +571,29 @@
 <footer class="footer">
     <div class="container">
         <p>© 2026 МОО ОПОО. Подключение школ: АИС ЭлЖур (скоро), СГО, АИС Онлайн, Современный педагог, Баллов нет, ЭЖ Журавль, Руководство.</p>
-        <p style="margin-top: 1rem;">Председатель — Горшков Владимир Александрович</p>
     </div>
 </footer>
 
-<!-- Скрипт для вкладок -->
+<!-- Скрипты: печать текста + вкладки -->
 <script>
     (function() {
+        // Эффект печатающегося текста
+        const text = "МОО ОПОО";
+        const el = document.getElementById('typewriter-text');
+        let i = 0;
+        el.textContent = '';
+        function type() {
+            if (i < text.length) {
+                el.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, 120);
+            } else {
+                el.style.borderRight = 'none';
+            }
+        }
+        type();
+
+        // Вкладки
         const tabs = document.querySelectorAll('.tab-btn');
         const panes = document.querySelectorAll('.tab-pane');
         tabs.forEach(btn => {
