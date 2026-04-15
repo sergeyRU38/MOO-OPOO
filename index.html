@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>МОО ОПОО | Подключение школ к цифровым системам</title>
+    <link rel="icon" type="image/jpeg" href="731.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -39,7 +40,22 @@
             gap: 1rem;
         }
 
-        .logo {
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .logo-text {
             font-size: 1.5rem;
             font-weight: 700;
             color: white;
@@ -51,7 +67,7 @@
         }
 
         .nav-links a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
@@ -425,7 +441,10 @@
 <header>
     <div class="container">
         <div class="navbar">
-            <div class="logo"><i class="fas fa-graduation-cap" style="margin-right: 8px;"></i>МОО ОПОО</div>
+            <div class="logo-area">
+                <img src="731.jpg" alt="МОО ОПОО" class="logo-img">
+                <div class="logo-text">МОО ОПОО</div>
+            </div>
             <div class="nav-links">
                 <a href="#">Главная</a>
                 <a href="#">Системы</a>
@@ -436,7 +455,7 @@
         </div>
     </div>
     <div class="container header-content">
-        <div class="glass-badge"><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i> Межрегиональная общественная организация</div>
+        <div class="glass-badge"><i class="fas fa-users" style="margin-right: 10px;"></i> Молодёжная общественная организация</div>
         <div class="typewriter-wrapper">
             <div id="typewriter-text">МОО ОПОО — подключаем школы к будущему</div>
         </div>
@@ -544,7 +563,7 @@
 
 <footer class="footer">
     <div class="container">
-        <p>© 2026 МОО ОПОО. Подключение школ к современным цифровым системам.</p>
+        <p>© 2026 МОО ОПОО. Молодёжная общественная организация. Подключение школ к современным цифровым системам.</p>
     </div>
 </footer>
 
