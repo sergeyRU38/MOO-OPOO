@@ -373,19 +373,6 @@
             display: none !important;
         }
 
-        .note {
-            background: #e0f2fe;
-            padding: 1rem;
-            border-radius: 16px;
-            margin: 1.5rem 0;
-            color: #0369a1;
-            text-align: center;
-        }
-
-        .note i {
-            margin-right: 8px;
-        }
-
         .choice-note {
             background: #f1f5f9;
             padding: 0.8rem;
@@ -393,22 +380,6 @@
             margin-bottom: 1rem;
             color: #475569;
             font-size: 0.9rem;
-        }
-
-        .warning-banner {
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            color: #92400e;
-            padding: 1rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .warning-banner i {
-            font-size: 1.5rem;
         }
 
         @media (max-width: 700px) {
@@ -431,12 +402,6 @@
             <div id="formContent">
                 <h1>📋 Подключение школы</h1>
                 <p class="subtitle">Заполните форму и выберите способ отправки</p>
-
-                <!-- Предупреждение о безопасности (временно) -->
-                <div class="warning-banner">
-                    <i class="fas fa-shield-alt"></i>
-                    <span><strong>Внимание!</strong> Для безопасности токен бота скрыт. Используйте кнопку Telegram — сообщение откроется в боте автоматически.</span>
-                </div>
 
                 <!-- Прогресс-бар -->
                 <div class="progress-bar">
@@ -735,7 +700,7 @@ Email: ${email}
             const { body } = getFormMessage();
             const encodedMessage = encodeURIComponent(body);
             
-            // Используем username бота (токен не нужен в коде!)
+            // Только username бота (токен не нужен!)
             const botUsername = 'mooOPOO_bot';
             const telegramUrl = `https://t.me/${botUsername}?text=${encodedMessage}`;
             
