@@ -395,6 +395,22 @@
             font-size: 0.9rem;
         }
 
+        .warning-banner {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #92400e;
+            padding: 1rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .warning-banner i {
+            font-size: 1.5rem;
+        }
+
         @media (max-width: 700px) {
             body { padding: 1rem; }
             .form-container { padding: 2rem 1.2rem; }
@@ -415,6 +431,12 @@
             <div id="formContent">
                 <h1>📋 Подключение школы</h1>
                 <p class="subtitle">Заполните форму и выберите способ отправки</p>
+
+                <!-- Предупреждение о безопасности (временно) -->
+                <div class="warning-banner">
+                    <i class="fas fa-shield-alt"></i>
+                    <span><strong>Внимание!</strong> Для безопасности токен бота скрыт. Используйте кнопку Telegram — сообщение откроется в боте автоматически.</span>
+                </div>
 
                 <!-- Прогресс-бар -->
                 <div class="progress-bar">
@@ -663,7 +685,6 @@
             const region = document.getElementById('region').value;
             const city = document.getElementById('city').value;
 
-            // Сбор выбранных систем
             const systems = [];
             if (document.getElementById('sgo').checked) systems.push('СГО');
             if (document.getElementById('online').checked) systems.push('АИС Онлайн');
@@ -672,10 +693,8 @@
             if (document.getElementById('zhuravl').checked) systems.push('ЭЖ Журавль');
             if (document.getElementById('rukovodstvo').checked) systems.push('Руководство');
 
-            // Тема письма
             const subject = `Заявка на подключение: ${schoolName}`;
 
-            // Текст сообщения
             const body = `
 ЗАЯВКА НА ПОДКЛЮЧЕНИЕ ШКОЛЫ
 
@@ -714,11 +733,9 @@ Email: ${email}
             if (!validateForm()) return;
 
             const { body } = getFormMessage();
-            
-            // Кодируем текст для URL
             const encodedMessage = encodeURIComponent(body);
             
-            // Открываем Telegram бот
+            // Используем username бота (токен не нужен в коде!)
             const botUsername = 'mooOPOO_bot';
             const telegramUrl = `https://t.me/${botUsername}?text=${encodedMessage}`;
             
@@ -735,12 +752,9 @@ Email: ${email}
             if (!validateForm()) return;
 
             const { subject, body } = getFormMessage();
-            
-            // Кодируем для mailto
             const encodedSubject = encodeURIComponent(subject);
             const encodedBody = encodeURIComponent(body);
             
-            // Открываем почтовый клиент
             const mailtoUrl = `mailto:SergeyRudukh@yandex.ru?subject=${encodedSubject}&body=${encodedBody}`;
             
             window.location.href = mailtoUrl;
