@@ -23,7 +23,6 @@
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 30px; }
 
-        /* ===== НОВЫЙ ДИЗАЙН ===== */
         :root {
             --primary: #6366f1;
             --secondary: #8b5cf6;
@@ -108,6 +107,7 @@
             font-weight: 500;
             transition: all 0.3s;
             position: relative;
+            cursor: pointer;
         }
 
         .nav-links a:hover { color: #fff; }
@@ -125,6 +125,14 @@
 
         .nav-links a:hover::after { width: 100%; }
 
+        .nav-links a.active {
+            color: #8b5cf6;
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
         .btn-nav {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
@@ -140,6 +148,97 @@
         .btn-nav:hover {
             transform: translateY(-3px);
             box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Кнопка настройки */
+        .settings-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .settings-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* Модальное окно настроек */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .setting-item label {
+            font-weight: 500;
+        }
+
+        .setting-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: #6366f1;
+            cursor: pointer;
+        }
+
+        .modal-close {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 1rem;
         }
 
         /* Хедер */
@@ -214,6 +313,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
 
         .btn-primary:hover {
@@ -235,6 +335,7 @@
             align-items: center;
             gap: 10px;
             backdrop-filter: blur(10px);
+            cursor: pointer;
         }
 
         .btn-secondary:hover {
@@ -267,16 +368,17 @@
             animation: float 6s ease infinite;
         }
 
-        .hero-visual img {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 30px;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+        /* Контентные секции */
+        .content-section {
+            display: none;
+            padding: 80px 0;
+        }
+
+        .content-section.active {
+            display: block;
         }
 
         /* Секции */
-        section { padding: 100px 0; }
-
         .section-header {
             text-align: center;
             margin-bottom: 60px;
@@ -398,54 +500,6 @@
             padding: 4px 10px;
             border-radius: 30px;
             margin-top: 10px;
-            display: inline-block;
-        }
-
-        /* Школы */
-        .schools-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .school-card {
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 30px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.4s;
-        }
-
-        .school-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-
-        .school-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .school-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .school-region {
-            color: #8b5cf6;
-            margin-bottom: 15px;
-        }
-
-        .school-status {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
             display: inline-block;
         }
 
@@ -747,7 +801,6 @@
             .hero-title { font-size: 3rem; }
             .grid-4 { grid-template-columns: 1fr; }
             .systems-grid { grid-template-columns: repeat(2, 1fr); }
-            .schools-grid { grid-template-columns: 1fr; }
             .team-grid { grid-template-columns: 1fr; }
             .quick-form { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; }
@@ -763,14 +816,21 @@
                     <img src="ava_minimalizm.jpg" alt="МОО ОПОО">
                     <span>МОО ОПОО</span>
                 </div>
-                <div class="nav-links">
-                    <a href="#features">Преимущества</a>
-                    <a href="#systems">Системы</a>
-                    <a href="#schools">Школы</a>
-                    <a href="#team">Команда</a>
-                    <a href="#contact">Контакты</a>
+                <div class="nav-links" id="navLinks">
+                    <a data-section="home" class="active">Главная</a>
+                    <a data-section="features">Преимущества</a>
+                    <a data-section="systems">Системы</a>
+                    <a data-section="team">Команда</a>
+                    <a data-section="quick">Быстрая заявка</a>
+                    <a data-section="docs">Документы</a>
+                    <a data-section="contact">Контакты</a>
                 </div>
-                <a href="form.html" class="btn-nav"><i class="fas fa-pen"></i> Подать заявку</a>
+                <div style="display: flex; align-items: center;">
+                    <a href="form.html" class="btn-nav"><i class="fas fa-pen"></i> Подать заявку</a>
+                    <div class="settings-btn" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
             </div>
             
             <div class="hero-grid">
@@ -780,7 +840,7 @@
                     <p class="hero-desc">Подключаем школы к современным цифровым системам. Быстро, надёжно, с поддержкой 24/7.</p>
                     <div class="hero-buttons">
                         <a href="form.html" class="btn-primary"><i class="fas fa-rocket"></i> Подключить школу</a>
-                        <a href="#quick-form" class="btn-secondary"><i class="fas fa-bolt"></i> Быстрая заявка</a>
+                        <button class="btn-secondary" onclick="switchSection('quick')"><i class="fas fa-bolt"></i> Быстрая заявка</button>
                     </div>
                     <div class="hero-stats">
                         <div class="hero-stat">
@@ -807,8 +867,38 @@
     </header>
 
     <main class="container">
+        <!-- Главная (домашняя) -->
+        <div id="home" class="content-section active">
+            <div style="text-align: center; padding: 60px 0;">
+                <h2 class="section-title">Добро пожаловать в МОО ОПОО</h2>
+                <p class="section-desc" style="margin-bottom: 40px;">Мы помогаем школам перейти на цифровые технологии</p>
+                <div class="grid-4" style="margin-top: 40px;">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>Быстрый старт</h3>
+                        <p>Подключение за 24 часа</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                        <h3>Поддержка 24/7</h3>
+                        <p>Всегда на связи</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Безопасность</h3>
+                        <p>Защита данных по 152-ФЗ</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h3>Обучение</h3>
+                        <p>Бесплатные вебинары</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Преимущества -->
-        <section id="features">
+        <div id="features" class="content-section">
             <div class="section-header">
                 <span class="section-badge"><i class="fas fa-star"></i> Почему мы</span>
                 <h2 class="section-title">Почему выбирают нас</h2>
@@ -836,10 +926,10 @@
                     <p>Современные подходы и технологии в образовательном процессе</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Системы -->
-        <section id="systems">
+        <div id="systems" class="content-section">
             <div class="section-header">
                 <span class="section-badge"><i class="fas fa-cloud"></i> Технологии</span>
                 <h2 class="section-title">Подключаемые системы</h2>
@@ -876,63 +966,10 @@
                     <h4>Руководство</h4>
                 </div>
             </div>
-        </section>
-
-        <!-- Школы -->
-        <section id="schools">
-            <div class="section-header">
-                <span class="section-badge"><i class="fas fa-school"></i> Наши школы</span>
-                <h2 class="section-title">Уже подключены</h2>
-                <p class="section-desc">Школы, которые уже работают с нашими системами</p>
-            </div>
-            <div class="schools-grid">
-                <div class="school-card">
-                    <div class="school-icon">🏫</div>
-                    <div class="school-name">МБОУ СОШ №42</div>
-                    <div class="school-region"><i class="fas fa-map-marker-alt"></i> Курск</div>
-                    <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Директор: Иванова М.С.</p>
-                    <span class="school-status"><i class="fas fa-check-circle"></i> Подключена</span>
-                </div>
-                <div class="school-card">
-                    <div class="school-icon">🏫</div>
-                    <div class="school-name">Гимназия №7</div>
-                    <div class="school-region"><i class="fas fa-map-marker-alt"></i> Москва</div>
-                    <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Директор: Петров А.В.</p>
-                    <span class="school-status"><i class="fas fa-check-circle"></i> Подключена</span>
-                </div>
-                <div class="school-card">
-                    <div class="school-icon">🏫</div>
-                    <div class="school-name">Лицей №15</div>
-                    <div class="school-region"><i class="fas fa-map-marker-alt"></i> Казань</div>
-                    <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Директор: Смирнова Е.Н.</p>
-                    <span class="school-status"><i class="fas fa-check-circle"></i> Подключена</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Быстрая форма -->
-        <section id="quick-form">
-            <div class="quick-form-section">
-                <div class="section-header">
-                    <span class="section-badge"><i class="fas fa-bolt"></i> Быстро</span>
-                    <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;">Оставить быструю заявку</h2>
-                    <p class="section-desc" style="color: rgba(255,255,255,0.7);">Заполните форму, и мы свяжемся с вами</p>
-                </div>
-                <div class="quick-form">
-                    <input type="text" id="quickName" placeholder="Название школы">
-                    <input type="text" id="quickCity" placeholder="Город">
-                    <input type="tel" id="quickPhone" placeholder="Телефон">
-                    <button class="btn-primary" id="quickSubmitBtn"><i class="fas fa-paper-plane"></i> Отправить</button>
-                </div>
-                <div id="quickFormMessage" class="form-message"></div>
-                <p style="text-align: center; margin-top: 25px; color: rgba(255,255,255,0.5);">
-                    <i class="fas fa-file-alt"></i> Или <a href="form.html" style="color: #8b5cf6;">заполните полную форму</a>
-                </p>
-            </div>
-        </section>
+        </div>
 
         <!-- Команда -->
-        <section id="team">
+        <div id="team" class="content-section">
             <div class="section-header">
                 <span class="section-badge"><i class="fas fa-users"></i> Руководство</span>
                 <h2 class="section-title">Наша команда</h2>
@@ -964,19 +1001,31 @@
                     <div class="team-vk"><a href="https://vk.com/ruzavinzhenya" target="_blank"><i class="fab fa-vk"></i> @ruzavinzhenya</a></div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- CTA -->
-        <section>
-            <div class="cta-section">
-                <h2>Готовы стать частью нашей сети?</h2>
-                <p>Подключите вашу школу к системам МОО ОПОО уже сегодня</p>
-                <a href="form.html" class="btn-primary"><i class="fas fa-paper-plane"></i> Подать заявку сейчас</a>
+        <!-- Быстрая заявка -->
+        <div id="quick" class="content-section">
+            <div class="quick-form-section">
+                <div class="section-header">
+                    <span class="section-badge"><i class="fas fa-bolt"></i> Быстро</span>
+                    <h2 class="section-title" style="color: white; -webkit-text-fill-color: white;">Оставить быструю заявку</h2>
+                    <p class="section-desc" style="color: rgba(255,255,255,0.7);">Заполните форму, и мы свяжемся с вами</p>
+                </div>
+                <div class="quick-form">
+                    <input type="text" id="quickName" placeholder="Название школы">
+                    <input type="text" id="quickCity" placeholder="Город">
+                    <input type="tel" id="quickPhone" placeholder="Телефон">
+                    <button class="btn-primary" id="quickSubmitBtn"><i class="fas fa-paper-plane"></i> Отправить</button>
+                </div>
+                <div id="quickFormMessage" class="form-message"></div>
+                <p style="text-align: center; margin-top: 25px; color: rgba(255,255,255,0.5);">
+                    <i class="fas fa-file-alt"></i> Или <a href="form.html" style="color: #8b5cf6;">заполните полную форму</a>
+                </p>
             </div>
-        </section>
+        </div>
 
         <!-- Документы -->
-        <section>
+        <div id="docs" class="content-section">
             <div class="section-header">
                 <span class="section-badge"><i class="fas fa-file-alt"></i> Документы</span>
                 <h2 class="section-title">Официальные документы</h2>
@@ -1005,10 +1054,47 @@
                     </div>
                 </a>
             </div>
+        </div>
+
+        <!-- Контакты -->
+        <div id="contact" class="content-section">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-address-card"></i> Связь</span>
+                <h2 class="section-title">Контакты</h2>
+                <p class="section-desc">Свяжитесь с нами любым удобным способом</p>
+            </div>
+            <div class="cta-section" style="animation: none; background: rgba(99, 102, 241, 0.2);">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center;">
+                    <div>
+                        <i class="fas fa-phone" style="font-size: 3rem; margin-bottom: 20px; color: #8b5cf6;"></i>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Телефон</h3>
+                        <p style="font-size: 1.2rem;">+7 (983) 242-03-49</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-envelope" style="font-size: 3rem; margin-bottom: 20px; color: #8b5cf6;"></i>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Email</h3>
+                        <p style="font-size: 1.2rem;">SergeyRudukh@yandex.ru</p>
+                    </div>
+                    <div>
+                        <i class="fab fa-telegram" style="font-size: 3rem; margin-bottom: 20px; color: #8b5cf6;"></i>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Telegram</h3>
+                        <p style="font-size: 1.2rem;">@mooOPOO_bot</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <section>
+            <div class="cta-section">
+                <h2>Готовы стать частью нашей сети?</h2>
+                <p>Подключите вашу школу к системам МОО ОПОО уже сегодня</p>
+                <a href="form.html" class="btn-primary"><i class="fas fa-paper-plane"></i> Подать заявку сейчас</a>
+            </div>
         </section>
     </main>
 
-    <footer id="contact">
+    <footer>
         <div class="container">
             <div class="footer-grid">
                 <div>
@@ -1024,12 +1110,7 @@
                 </div>
                 <div class="footer-links">
                     <h4>Навигация</h4>
-                    <ul>
-                        <li><a href="#features">Преимущества</a></li>
-                        <li><a href="#systems">Системы</a></li>
-                        <li><a href="#schools">Школы</a></li>
-                        <li><a href="#team">Команда</a></li>
-                    </ul>
+                    <ul id="footerNav"></ul>
                 </div>
                 <div class="footer-links">
                     <h4>Документы</h4>
@@ -1039,14 +1120,7 @@
                         <li><a href="Соглашение об информационном взаимодействии.docx" download>Соглашение</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
-                    <h4>Контакты</h4>
-                    <ul>
-                        <li><i class="fas fa-phone"></i> +7 (983) 242-03-49</li>
-                        <li><i class="fas fa-envelope"></i> SergeyRudukh@yandex.ru</li>
-                        <li><i class="fab fa-telegram"></i> @mooOPOO_bot</li>
-                    </ul>
-                </div>
+                <div class="footer-links" id="footerContacts"></div>
             </div>
             <div class="footer-bottom">
                 <p>© 2026 МОО ОПОО. Все права защищены.</p>
@@ -1054,11 +1128,136 @@
         </div>
     </footer>
 
+    <!-- Модальное окно настроек -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-sliders-h"></i> Настройки навигации</h3>
+            <div id="settingsList"></div>
+            <button class="modal-close" onclick="closeSettings()">Сохранить и закрыть</button>
+        </div>
+    </div>
+
     <script>
-        // EmailJS инициализация
+        // EmailJS
         (function() {
             emailjs.init("tQY2KQxPwNdF7WrT_");
         })();
+
+        // Настройки навигации
+        let navSettings = {
+            home: true,
+            features: true,
+            systems: true,
+            team: true,
+            quick: true,
+            docs: true,
+            contact: true
+        };
+
+        const sectionNames = {
+            home: 'Главная',
+            features: 'Преимущества',
+            systems: 'Системы',
+            team: 'Команда',
+            quick: 'Быстрая заявка',
+            docs: 'Документы',
+            contact: 'Контакты'
+        };
+
+        // Загрузка настроек из localStorage
+        if (localStorage.getItem('navSettings')) {
+            navSettings = JSON.parse(localStorage.getItem('navSettings'));
+        }
+
+        function updateNavigation() {
+            const navLinks = document.getElementById('navLinks');
+            const links = navLinks.querySelectorAll('a');
+            
+            links.forEach(link => {
+                const section = link.getAttribute('data-section');
+                if (navSettings[section] === false) {
+                    link.style.display = 'none';
+                } else {
+                    link.style.display = 'inline';
+                }
+            });
+
+            // Обновление футера
+            const footerNav = document.getElementById('footerNav');
+            footerNav.innerHTML = '';
+            for (let key in navSettings) {
+                if (navSettings[key] && key !== 'contact') {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#" onclick="switchSection('${key}')">${sectionNames[key]}</a>`;
+                    footerNav.appendChild(li);
+                }
+            }
+
+            const footerContacts = document.getElementById('footerContacts');
+            if (navSettings.contact) {
+                footerContacts.innerHTML = `
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +7 (983) 242-03-49</li>
+                        <li><i class="fas fa-envelope"></i> SergeyRudukh@yandex.ru</li>
+                        <li><i class="fab fa-telegram"></i> @mooOPOO_bot</li>
+                    </ul>
+                `;
+            } else {
+                footerContacts.innerHTML = '';
+            }
+
+            localStorage.setItem('navSettings', JSON.stringify(navSettings));
+        }
+
+        function openSettings() {
+            const modal = document.getElementById('settingsModal');
+            const list = document.getElementById('settingsList');
+            
+            list.innerHTML = '';
+            for (let key in navSettings) {
+                const div = document.createElement('div');
+                div.className = 'setting-item';
+                div.innerHTML = `
+                    <label>${sectionNames[key]}</label>
+                    <input type="checkbox" ${navSettings[key] ? 'checked' : ''} data-section="${key}">
+                `;
+                list.appendChild(div);
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeSettings() {
+            const modal = document.getElementById('settingsModal');
+            const checkboxes = modal.querySelectorAll('input[type="checkbox"]');
+            
+            checkboxes.forEach(cb => {
+                const section = cb.getAttribute('data-section');
+                navSettings[section] = cb.checked;
+            });
+
+            updateNavigation();
+            modal.classList.remove('active');
+        }
+
+        function switchSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            document.querySelector(`.nav-links a[data-section="${sectionId}"]`).classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Обработчики навигации
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                const section = this.getAttribute('data-section');
+                switchSection(section);
+            });
+        });
 
         // Счётчик
         const counters = document.querySelectorAll('.counter');
@@ -1125,6 +1324,14 @@
                 btn.innerHTML = orig;
             }
         });
+
+        // Закрытие модалки по клику вне
+        document.getElementById('settingsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSettings();
+        });
+
+        // Инициализация
+        updateNavigation();
     </script>
 </body>
 </html>
